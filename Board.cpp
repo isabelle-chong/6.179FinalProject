@@ -65,7 +65,7 @@ bool Board::checkDiagonals()
     
     if ((board[0][2]==board[1][1])&&(board[1][1]==board[2][0])&&(board[2][0]==board[0][2]))
         {
-            winningString = board[0][0];
+            winningString = board[0][2];
             return true;
         }
     return false;
@@ -124,6 +124,8 @@ int main(int argc, const char * argv[]) {
             col1-=1;
             if (tttb.isEmpty(row1, col1))
                 break;
+            else if (row1>DIMENSION-1 or col1>DIMENSION-1)
+                std::cout<<"That's outta range! Try again.\n";
             else
                 std::cout<<"That's already full! Try again.\n";
         }
@@ -131,7 +133,9 @@ int main(int argc, const char * argv[]) {
         std::cout << tttb;
         won = tttb.winner();
         if (won == true)
-                break;
+        {
+            break;
+        }
         std::cout << "Player 2's Turn\n";
         while (true)
         {
@@ -143,6 +147,8 @@ int main(int argc, const char * argv[]) {
             col2-=1;
             if (tttb.isEmpty(row2, col2))
                 break;
+            else if (row2>DIMENSION-1 or col2>DIMENSION-1)
+                std::cout<<"That's outta range! Try again.\n";
             else
                 std::cout<<"That's already full! Try again.\n";
         }
@@ -150,7 +156,10 @@ int main(int argc, const char * argv[]) {
         std::cout << tttb;
         won = tttb.winner();
         if (won == true)
+        {
             break;
+        }
+    
     }
     return 0;
 }
