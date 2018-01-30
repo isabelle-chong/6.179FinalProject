@@ -35,6 +35,7 @@ public:
     }
     bool isEmpty(int r, int c);
     void addToBoard(int r, int c, std::string move);
+    void clearBoard();
     friend std::ostream &operator<<(std::ostream &os, Board &b);
     bool checkRows();
     bool checkCols();

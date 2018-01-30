@@ -29,6 +29,16 @@ std::ostream &operator<<(std::ostream &os, Board &b)
     return os;
 }
 
+void Board::clearBoard()
+{
+    for (int i = 0; i<DIMENSION; i++)
+    {
+        for (int j = 0; j<DIMENSION; j++)
+        {
+            board[i][j] = "*";
+        }
+    }
+}
 
 bool Board::checkRows()
 {
@@ -105,61 +115,93 @@ bool Board::winner()
 int main(int argc, const char * argv[]) {
     // insert code here...
     bool won = false;
+    bool playAgain = true;
+    std::string playAgainAnswer;
     Board tttb;
     int row1;
     int row2;
     int col1;
     int col2;
-    while (won == false)
+    while (playAgain)
     {
-        std::cout << "Let's play Tic Tac To!\n";
-        std::cout << "Player 1's Turn\n";
-        while (true)
+        while (won == false)
         {
-            std::cout << "Row?\n";
-            std::cin >> row1;
-            row1-=1;
-            std::cout << "Column?\n";
-            std::cin >> col1;
-            col1-=1;
-            if (tttb.isEmpty(row1, col1))
-                break;
-            else if (row1>DIMENSION-1 or col1>DIMENSION-1)
-                std::cout<<"That's outta range! Try again.\n";
-            else
-                std::cout<<"That's already full! Try again.\n";
-        }
-        tttb.addToBoard(row1, col1, "X");
-        std::cout << tttb;
-        won = tttb.winner();
-        if (won == true)
-        {
-            break;
-        }
-        std::cout << "Player 2's Turn\n";
-        while (true)
-        {
-            std::cout << "Row?\n";
-            std::cin >> row2;
-            row2-=1;
-            std::cout << "Column?\n";
-            std::cin >> col2;
-            col2-=1;
-            if (tttb.isEmpty(row2, col2))
-                break;
-            else if (row2>DIMENSION-1 or col2>DIMENSION-1)
-                std::cout<<"That's outta range! Try again.\n";
-            else
-                std::cout<<"That's already full! Try again.\n";
-        }
-        tttb.addToBoard(row2, col2, "O");
-        std::cout << tttb;
-        won = tttb.winner();
-        if (won == true)
-        {
-            break;
-        }
+            std::cout << "Let's play Tic Tac To!\n";
+            std::cout << "Player 1's Turn\n";
+            while (true)
+            {
+                std::cout << "Row?\n";
+                std::cin >> row1;
+                row1-=1;
+                std::cout << "Column?\n";
+                std::cin >> col1;
+                col1-=1;
+                if (tttb.isEmpty(row1, col1))
+                    break;
+                else if (row1>DIMENSION-1 or row1<0 or col1<0 or col1>DIMENSION-1)
+                    std::cout<<"That's outta range! Try again.\n";
+                else
+                    std::cout<<"That's already full! Try again.\n";
+            }
+            tttb.addToBoard(row1, col1, "X");
+            std::cout << tttb;
+            won = tttb.winner();
+            if (won == true)
+            {
+                std::cout << "Wanna play again? Say yes or no\n";
+                std::cin >> playAgainAnswer;
+                std::transform(playAgainAnswer.begin(), playAgainAnswer.end(), playAgainAnswer.begin(), ::tolower);
+                if (playAgainAnswer == "no")
+                {
+                    playAgain = false;
+                    break;
+                }
+                else
+                {
+                    won = false;
+                    tttb.clearBoard();
+                    continue;
+                }
+            }
+            std::cout << "Player 2's Turn\n";
+            while (true)
+            {
+                std::cout << "Row?\n";
+                std::cin >> row2;
+                row2-=1;
+                std::cout << "Column?\n";
+                std::cin >> col2;
+                col2-=1;
+                if (tttb.isEmpty(row2, col2))
+                    break;
+                else if (row2>DIMENSION-1 or row2<0 or col2<0 or col2>DIMENSION-1)
+                    std::cout<<"That's outta range! Try again.\n";
+                else
+                    std::cout<<"That's already full! Try again.\n";
+            }
+            tttb.addToBoard(row2, col2, "O");
+            std::cout << tttb;
+            won = tttb.winner();
+            if (won == true)
+            {
+                std::cout << "Wanna play again? Say yes or no\n";
+                std::cin >> playAgainAnswer;
+                std::transform(playAgainAnswer.begin(), playAgainAnswer.end(), playAgainAnswer.begin(), ::tolower);
+                if (playAgainAnswer == "no")
+                {
+                    playAgain = false;
+                    break;
+                }
+                else
+                {
+                    won = false;
+                    tttb.clearBoard();
+                    continue;
+                }
+                
+            }
     
+        }
     }
     return 0;
 }
